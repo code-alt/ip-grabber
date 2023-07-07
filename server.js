@@ -9,15 +9,15 @@ const path = require("path");
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
   // Set this to true for detailed logging:
-  logger : false,
+  logger: false,
 });
 
 // ADD FAVORITES ARRAY VARIABLE FROM TODO HERE
 
 // Setup our static files
 fastify.register(require("@fastify/static"), {
-  root : path.join(__dirname, "public"),
-  prefix : "/", // optional: default '/'
+  root: path.join(__dirname, "public"),
+  prefix: "/", // optional: default '/'
 });
 
 // Formbody lets us parse incoming forms
@@ -25,8 +25,8 @@ fastify.register(require("@fastify/formbody"));
 
 // View is a templating manager for fastify
 fastify.register(require("@fastify/view"), {
-  engine : {
-    handlebars : require("handlebars"),
+  engine: {
+    handlebars: require("handlebars"),
   },
 });
 
@@ -41,24 +41,24 @@ if (seo.url === "glitch-default") {
   seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 }
 
-fastify.get("/", function(request, reply) {
+fastify.get("/", function (request, reply) {
   // params is an object we'll pass to our handlebars template
-  let params = {seo : seo};
+  let params = { seo: seo };
 
   const ip = "not here"; // request.headers['x-forwarded-for'] || request.ip
-  console.log(ip)
+  console.log(ip);
 
   // The Handlebars code will be able to access the parameter values and build
   // them into the page
   return reply.view("/src/pages/index.hbs", params);
 });
 
-fastify.get("/the-stage.gif", function(request, reply) {
+fastify.get("/the-stage.gif", function (request, reply) {
   // params is an object we'll pass to our handlebars template
-  let params = {seo : fileseo};
+  let params = { seo: fileseo };
 
-  const ip = request.headers['x-forwarded-for'] || request.ip
-  console.log(ip)
+  const ip = request.headers["x-forwarded-for"] || request.ip;
+  console.log(ip);
 
   // The Handlebars code will be able to access the parameter values and build
   // them into the page
@@ -66,11 +66,13 @@ fastify.get("/the-stage.gif", function(request, reply) {
 });
 
 // Run the server and report out to the logs
-fastify.listen({port : process.env.PORT, host : "0.0.0.0"},
-               function(err, address) {
-                 if (err) {
-                   console.error(err);
-                   process.exit(1);
-                 }
-                 console.log(`Your app is listening on ${address}`);
-               });
+fastify.listen(
+  { port: process.env.PORT, host: "0.0.0.0" },
+  function (err, address) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    console.log(`Your app is listening on ${address}`);
+  }
+);
